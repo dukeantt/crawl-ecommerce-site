@@ -12,12 +12,15 @@ class TikiSpider(scrapy.Spider):
     lazada: https://www.lazada.vn/giuong-noi/?spm=a2o4n.searchlistcategory.card.6.1fee29ebRUgYLd&item_id=399328790&from=onesearch_category_10657
     '''
     start_urls = [
-        'https://www.sendo.vn/giuong-cui-noi-cho-be/?p=1'
+        'https://www.sendo.vn/giuong-cui-noi-cho-be/'
     ]
+#?????
     page_number = 2
 
     def parse(self, response):
-        all_product_div = response.xpath('//div[@class="ReactVirtualized__Grid__innerScrollContainer"]//div[@class="list_1VuX grid5_gtk-"]')
+        # all_product_div = response.xpath('//div[@class="ReactVirtualized__Grid__innerScrollContainer"]/div[@class="list_1VuX grid5_gtk-"]')
+        all_product_div = response.css('div.caption_2Jn3')
+
         # product_title = //div[@class="ReactVirtualized__Grid__innerScrollContainer"]//div[@class="list_1VuX grid5_gtk-"]//span[@class="truncateMedium_Tofh"]
         # final_price = //div[@class="ReactVirtualized__Grid__innerScrollContainer"]//div[@class="list_1VuX grid5_gtk-"]//strong[@class="currentPrice_2hr9"]
         for product in all_product_div:
@@ -28,8 +31,8 @@ class TikiSpider(scrapy.Spider):
                 'product_title': product_title,
                 'final_price': final_price
             }
-
-        next_page = 'https://www.sendo.vn/giuong-cui-noi-cho-be/?p=' + str(TikiSpider.page_number) + '/'
-        if TikiSpider.page_number <= 64:
-            TikiSpider.page_number += 1
-            yield response.follow(next_page, callable=self.parse())
+        #
+        # next_page = 'https://www.sendo.vn/giuong-cui-noi-cho-be/?p=' + str(TikiSpider.page_number) + '/'
+        # if TikiSpider.page_number <= 64:
+        #     TikiSpider.page_number += 1
+        #     yield response.follow(next_page, callable=self.parse())
