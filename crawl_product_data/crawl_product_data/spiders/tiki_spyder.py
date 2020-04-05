@@ -28,11 +28,11 @@ class TikiSpider(scrapy.Spider):
             final_price = product.xpath('.//span[@class=\'final-price\']/text()').extract()[0].strip()
             x = 0
             yield {
-                'product_title': product_title,
-                'final_price': final_price
+                'name': product_title,
+                'price': final_price
             }
 
         next_page = 'https://tiki.vn/noi/c10468?page=' + str(TikiSpider.page_number) + '/'
-        if TikiSpider.page_number < 4:
+        if TikiSpider.page_number <= 4:
             TikiSpider.page_number += 1
-            yield response.follow(next_page, callable=self.parse())
+            yield response.follow(next_page, callback=self.parse)
