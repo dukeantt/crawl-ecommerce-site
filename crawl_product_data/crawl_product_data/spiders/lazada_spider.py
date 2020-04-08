@@ -5,8 +5,10 @@ import json
 class LazadaSpider(scrapy.Spider):
     name = 'lazada'
     start_urls = [
-        "https://www.lazada.vn/noi-tre-so-sinh/?ajax=true&spm=a2o4n.searchlistcategory.card.2.1fee29ebgMsiIB&item_id=309864813&from=onesearch_category_10657"
+        # "https://www.lazada.vn/noi-tre-so-sinh/?ajax=true&spm=a2o4n.searchlistcategory.card.2.1fee29ebgMsiIB&item_id=309864813&from=onesearch_category_10657"
         # "https://www.lazada.vn/noi-tre-so-sinh/?ajax=true&page=1"
+        # "https://www.lazada.vn/noi-tre-so-sinh/?ajax=true&from=onesearch_category_10657&item_id=309864813&page=2&spm=a2o4n.searchlistcategory.card.2.1fee29ebgMsiIB"
+        "https://www.lazada.vn/noi-tre-so-sinh/?page=2&ajax=true"
     ]
     page_number = 2
 
