@@ -32,7 +32,7 @@ class TikiSpider(scrapy.Spider):
                 'price': final_price
             }
 
-        next_page = 'https://tiki.vn/noi/c10468?page=' + str(TikiSpider.page_number) + '/'
+        next_page = 'https://tiki.vn/noi/c10468?page=' + str(TikiSpider.page_number)
         if TikiSpider.page_number <= 4:
             TikiSpider.page_number += 1
             yield response.follow(next_page, callback=self.parse)
