@@ -5,7 +5,7 @@ __pycache__/
 
 # C extensions
 *.so
-crawl_product_data/data/
+#crawl_product_data/data/
 # Distribution / packaging
 .Python
 .idea/
