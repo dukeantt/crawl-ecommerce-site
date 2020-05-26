@@ -5,14 +5,14 @@ import json
 
 
 class ShopeeItemSpider(scrapy.Spider):
-    name = 'shopee-item'
+    name = 'shopee-item-all'
     allowed_domains = ['shopee.vn']
 
-    cat_api = 'https://shopee.vn/api/v2/search_items/?by=relevancy&keyword={}' \
-              '%C5%A9i&limit=50&match_id=8851&newest={}&order=desc&page_type=search&version=2 '
-
+    # cat_api = 'https://shopee.vn/api/v2/search_items/?by=relevancy&keyword={}' \
+    #           '%C5%A9i&limit=50&match_id=8851&newest={}&order=desc&page_type=search&version=2 '
+    cat_api = "https://shopee.vn/api/v2/search_items/?by=relevancy&limit=50&match_id=163&newest={}&order=desc" \
+              "&page_type=search&version=2 "
     item_api = "https://shopee.vn/api/v2/item/get?itemid={}&shopid={}"
-    shop_api = "https://shopee.vn/api/v2/shop/get?shopid={}"
     item_url = "https://shopee.vn/product/{}/{}"
 
     search_text = "Xe đẩy, nôi cũi"
@@ -71,28 +71,9 @@ class ShopeeItemSpider(scrapy.Spider):
         url = self.item_url.format(shopid, itemid)
         item = api_response['item']
         name = item['name']
-        name = name.replace("🌟", "")
         name = name.replace("\"", "")
         price = str(item['price'] / 100000)
-
-        shop_api_url = self.shop_api.format(shopid)
-        yield scrapy.Request(shop_api_url, callback=self.parse_shop_api,
-                             cb_kwargs={'prod_name': name,
-                                        'price': price})
-        # yield {
-        #     'name': name,
-        #     'price': price
-        # }
-
-    def parse_shop_api(self, response, prod_name, price):
-        api_response = json.loads(response.text)
-        shop_data = api_response['data']
-        shop_owner = shop_data['account']['username']
-        shop_name = shop_data['name']
-
         yield {
-            'name': prod_name,
-            'price': price,
-            'shop_name': shop_name,
-            'shop_owner': shop_owner
+            'name': name,
+            'price': price
         }
