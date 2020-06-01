@@ -17,10 +17,12 @@ class SendoSpider(scrapy.Spider):
         for product in list_items:
             name = product['name']
             price = product['final_price']
+            shop_name = product['shop_info']['shop_name']
             x = 0
             yield {
                 'name': name,
-                'price': price
+                'price': price,
+                'shop_name': shop_name
             }
 
         next_page = 'https://www.sendo.vn/m/wap_v2/category/product?category_id=189&listing_algo=algo14&p=' + str(SendoSpider.page_number) + '&platform=web&s=60&sortType=listing_v2_location_desc/'
