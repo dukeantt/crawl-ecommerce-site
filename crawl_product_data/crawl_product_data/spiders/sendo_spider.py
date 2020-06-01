@@ -18,8 +18,10 @@ class SendoSpider(scrapy.Spider):
             name = product['name']
             price = product['final_price']
             shop_name = product['shop_info']['shop_name']
+            product_id = product['product_id']
             x = 0
             yield {
+                'product_id': product_id,
                 'name': name,
                 'price': price,
                 'shop_name': shop_name

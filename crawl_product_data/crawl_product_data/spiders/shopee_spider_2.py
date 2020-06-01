@@ -74,23 +74,25 @@ class ShopeeItemSpider(scrapy.Spider):
         name = name.replace("🌟", "")
         name = name.replace("\"", "")
         price = str(item['price'] / 100000)
-
+        item_id = itemid
         shop_api_url = self.shop_api.format(shopid)
         yield scrapy.Request(shop_api_url, callback=self.parse_shop_api,
                              cb_kwargs={'prod_name': name,
-                                        'price': price})
+                                        'price': price,
+                                        'item_id': item_id})
         # yield {
         #     'name': name,
         #     'price': price
         # }
 
-    def parse_shop_api(self, response, prod_name, price):
+    def parse_shop_api(self, response, prod_name, price, item_id):
         api_response = json.loads(response.text)
         shop_data = api_response['data']
         shop_owner = shop_data['account']['username']
         shop_name = shop_data['name']
 
         yield {
+            'product_id': item_id,
             'name': prod_name,
             'price': price,
             'shop_name': shop_name,
