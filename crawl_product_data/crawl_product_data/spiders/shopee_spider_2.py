@@ -79,22 +79,30 @@ class ShopeeItemSpider(scrapy.Spider):
         yield scrapy.Request(shop_api_url, callback=self.parse_shop_api,
                              cb_kwargs={'prod_name': name,
                                         'price': price,
-                                        'item_id': item_id})
-        # yield {
-        #     'name': name,
-        #     'price': price
-        # }
+                                        'item_id': item_id,
+                                        'product_url': url})
 
-    def parse_shop_api(self, response, prod_name, price, item_id):
+
+    def parse_shop_api(self, response, prod_name, price, item_id, product_url):
         api_response = json.loads(response.text)
         shop_data = api_response['data']
-        shop_owner = shop_data['account']['username']
-        shop_name = shop_data['name']
-
+        shop_id = shop_data['shopid']
+        try:
+            shop_owner = shop_data['account']['username']
+            shop_url = "https://shopee.vn/" + shop_owner
+        except:
+            shop_owner = ""
+        try:
+            shop_name = shop_data['name']
+        except:
+            shop_name = ""
         yield {
             'product_id': item_id,
+            'product_url': product_url,
             'name': prod_name,
             'price': price,
+            'shop_id': shop_id,
+            'shop_url': shop_url,
             'shop_name': shop_name,
             'shop_owner': shop_owner
         }
