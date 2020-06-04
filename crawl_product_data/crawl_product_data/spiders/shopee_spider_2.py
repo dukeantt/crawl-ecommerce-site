@@ -87,15 +87,16 @@ class ShopeeItemSpider(scrapy.Spider):
         api_response = json.loads(response.text)
         shop_data = api_response['data']
         shop_id = shop_data['shopid']
-        try:
+        shop_url = ""
+        shop_owner = ""
+        shop_name = ""
+
+        if "username" in shop_data['account']:
             shop_owner = shop_data['account']['username']
             shop_url = "https://shopee.vn/" + shop_owner
-        except:
-            shop_owner = ""
-        try:
+        if "name" in shop_data:
             shop_name = shop_data['name']
-        except:
-            shop_name = ""
+
         yield {
             'product_id': item_id,
             'product_url': product_url,
