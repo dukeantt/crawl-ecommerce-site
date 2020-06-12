@@ -6,9 +6,9 @@ from datetime import date, timedelta
 
 ## crawl tiki
 class TikiSpider(scrapy.Spider):
-    name = 'tiki'
+    name = 'tiki-all'
     start_urls = [
-        'https://tiki.vn/noi/c10468?page=1'
+        'https://tiki.vn/do-choi-me-be/c2549?page=1'
     ]
     page_number = 2
     item_api = "https://tiki.vn/api/v2/products/{}"
@@ -49,7 +49,7 @@ class TikiSpider(scrapy.Spider):
                                  cb_kwargs={'product_name': product_title,
                                             'final_price': final_price})
 
-        next_page = 'https://tiki.vn/noi/c10468?page=' + str(TikiSpider.page_number)
-        if TikiSpider.page_number <= 4:
+        next_page = 'https://tiki.vn/do-choi-me-be/c2549?page=' + str(TikiSpider.page_number)
+        if TikiSpider.page_number <= 100:
             TikiSpider.page_number += 1
             yield response.follow(next_page, callback=self.parse)

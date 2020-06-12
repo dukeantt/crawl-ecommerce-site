@@ -2,6 +2,7 @@
 import logging
 import scrapy
 import json
+from datetime import date
 
 
 class ShopeeItemSpider(scrapy.Spider):
@@ -96,6 +97,7 @@ class ShopeeItemSpider(scrapy.Spider):
             shop_url = "https://shopee.vn/" + shop_owner
         if "name" in shop_data:
             shop_name = shop_data['name']
+        today = date.today()
 
         yield {
             'product_id': item_id,
@@ -105,5 +107,6 @@ class ShopeeItemSpider(scrapy.Spider):
             'shop_id': shop_id,
             'shop_url': shop_url,
             'shop_name': shop_name,
-            'shop_owner': shop_owner
+            'shop_owner': shop_owner,
+            'date': today,
         }

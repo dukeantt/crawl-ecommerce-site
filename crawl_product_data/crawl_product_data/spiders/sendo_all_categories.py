@@ -4,10 +4,10 @@ from datetime import date
 
 
 class SendoSpider(scrapy.Spider):
-    name = 'sendo'
+    name = 'sendo-all'
 
     start_urls = [
-        "https://www.sendo.vn/m/wap_v2/category/product?category_id=189&listing_algo=algo14&p=1&platform=web&s=60&sortType=listing_v2_location_desc"
+        "https://www.sendo.vn/m/wap_v2/category/product?category_id=138&listing_algo=algo13&p=1&platform=web&s=60&sortType=vasup_desc"
     ]
     page_number = 2
     item_api = "https://mapi.sendo.vn/mob/product/{}/detail/"
@@ -37,6 +37,7 @@ class SendoSpider(scrapy.Spider):
             product_url = api_response['deep_link']
         admin_id = api_response['admin_id']
         shop_api_url = self.shop_api.format(admin_id)
+        today = date.today()
 
         yield {
             'product_id': product_id,
@@ -44,6 +45,7 @@ class SendoSpider(scrapy.Spider):
             'name': product_name,
             'price': final_price,
             'shop_name': shop_name,
+            'date': today,
         }
         # yield scrapy.Request(shop_api_url, callback=self.parse_shop_api,
         #                      cb_kwargs={'product_name': product_name,
@@ -77,8 +79,8 @@ class SendoSpider(scrapy.Spider):
                                             'shop_name': shop_name})
 
 
-        next_page = 'https://www.sendo.vn/m/wap_v2/category/product?category_id=189&listing_algo=algo14&p=' + str(
-            SendoSpider.page_number) + '&platform=web&s=60&sortType=listing_v2_location_desc/'
-        if SendoSpider.page_number <= 60:
+        next_page = 'https://www.sendo.vn/m/wap_v2/category/product?category_id=138&listing_algo=algo13&p=' + str(
+            SendoSpider.page_number) + '&platform=web&s=60&sortType=vasup_desc/'
+        if SendoSpider.page_number <= 200:
             SendoSpider.page_number += 1
             yield response.follow(next_page, callback=self.parse)
